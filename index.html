@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun Welcome Page</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  #popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 30px;
+    text-align: center;
+    font-size: 2em;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #00000050;
+    display: none;
+    z-index: 1000;
+  }
+
+  #container {
+    text-align: center;
+    margin-top: 150px;
+  }
+
+  input[type=text] {
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: 2px solid #00000050;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #message {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .balloon {
+    position: absolute;
+    bottom: -50px;
+    font-size: 2em;
+    animation: floatUp 1s forwards;
+  }
+
+  @keyframes floatUp {
+    0% {bottom: -50px; opacity: 1;}
+    100% {bottom: 90%; opacity: 0;}
+  }
+
+  .party {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size: 2em;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    animation: partyBoom 0.8s forwards;
+  }
+
+  @keyframes partyBoom {
+    0% {transform: translate(-50%, -50%) scale(0); opacity: 1;}
+    100% {transform: translate(-50%, -50%) scale(1.5); opacity: 0;}
+  }
+</style>
+</head>
+<body>
+
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<div id="popup">Welcome to my website 🎉</div>
+
+<div id="container">
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button id="showBtn">Show</button>
+  <button id="clearBtn">Clear</button>
+  <div id="message"></div>
+</div>
+
+<script>
+const popup = document.getElementById('popup');
+const music = document.getElementById('music');
+const showBtn = document.getElementById('showBtn');
+const clearBtn = document.getElementById('clearBtn');
+const messageDiv = document.getElementById('message');
+const nameInput = document.getElementById('nameInput');
+
+let showUsed = false;
+
+// Background music with small delay
+window.onload = () => {
+  setTimeout(()=> music.play(), 500);
+
+  // Balloon animation
+  for(let i=0;i<5;i++){
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    balloon.style.left = (10 + i*15) + '%';
+    balloon.textContent = '🎈';
+    document.body.appendChild(balloon);
+    setTimeout(()=> balloon.remove(), 1000);
+  }
+
+  // Party bomb
+  const party = document.createElement('div');
+  party.className = 'party';
+  party.textContent = '🎊🎉';
+  document.body.appendChild(party);
+  setTimeout(()=> party.remove(), 800);
+
+  // Show popup
+  setTimeout(()=> popup.style.display = 'block', 1000);
+  setTimeout(()=> popup.style.display = 'none', 3000);
+}
+
+// Show button logic
+showBtn.addEventListener('click', () => {
+  if(showUsed) return;
+  const name = nameInput.value.trim().toLowerCase();
+  if(!name) return alert('Please enter a name!');
+  
+  let msg = "Hello " + name + "!";
+  if(name === 'varnika'){
+    msg = 'madam ji kya hal chal kaise ho sab badiya chal raha hai na college me';
+  } else if(name === 'maitrey'){
+    msg = "bhai tu money pe focus kar";
+  } else {
+    msg = "Welcome " + name + " 😎"; // generic message for other names
+  }
+
+  messageDiv.textContent = msg;
+  showUsed = true;
+});
+
+// Clear button logic
+clearBtn.addEventListener('click', () => {
+  nameInput.value = '';
+  messageDiv.textContent = '';
+  showUsed = false;
+});
+</script>
+
+</body>
+</html>
